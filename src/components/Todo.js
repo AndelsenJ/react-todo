@@ -1,35 +1,31 @@
-import React, {useState} from "react";
-import { RiCloseCircleLine } from 'react-icons/ri';
-import { TiEdit } from 'react-icons/ti';
-import Form from "./Form";
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle, faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 
-function Todo({todos, completeTodo, removeTodo, updateTodo}) {
-    const [edit, setEdit] = useState({
-        id: null,
-        value: ''
-    });
-
-    const submitUpdate = value => {
-        updateTodo (edit.id, value);
-        setEdit({
-            id: null,
-            value: ''
-        });
-    }
-
-    if (edit.id) {
-        return <Form edit={edit} onSubmit={submitUpdate} />;
-    }
+function Todo({todos, completeTodo, removeTodo, handleEdit}) {
 
     return todos.map((todo, index) => (
-        <div key={index}>
-            <div key={todo.id} onClick={() => completeTodo(todo.id)}>
-                {todo.text}
+        <div className="col bg-todo" key={index}>
+            <div className={todo.isComplete ? 'is-complete' : ''} key={todo.id}>
+                <span className="text-todo">{todo.text}</span>
             </div>
-            <div>
-                <RiCloseCircleLine onClick={() => removeTodo(todo.id)} />
-                <TiEdit onClick={() => setEdit({id: todo.id, value: todo.text})}/>
+            <div className="icons-action">
+                <span>
+                    <FontAwesomeIcon icon={faCheckCircle} onClick={() => completeTodo (todo.id)} className="icon-check"/>
+                </span>
+
+                {
+                    todo.isComplete ? '' : (
+                        <span>
+                            <FontAwesomeIcon icon={faEdit} onClick={() => handleEdit (todo.id)} className="icon-edit"/>
+                        </span>
+                    )
+                }
+
+                <span>
+                    <FontAwesomeIcon icon={faTrashAlt} onClick={() => removeTodo (todo.id)} className="icon-delete"/>
+                </span>
             </div>
         </div>
     ));

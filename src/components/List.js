@@ -1,14 +1,24 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Form from "./Form";
 import Todo from "./Todo";
 
 function List() {
 
-    const [items, setItems] = useState([]);
+    const getLocalItems = () => {
+        let lists = localStorage.getItem('items');
+        return lists ? JSON.parse(lists) : [];
+    }
+
+    const [items, setItems] = useState(getLocalItems);
 
     const [todoUpdate, setTodoUpdate] = useState({});
 
     const [editMode, setEditMode] = useState(false);
+
+    useEffect(() => {
+        localStorage.setItem('items', JSON.stringify(items));
+        console.log(items);
+    }, [items]);
 
     const addItem = (item) => {
         if (!item.text || /^\s*$/.test(item.text)) {

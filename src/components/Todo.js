@@ -1,26 +1,9 @@
-import React, {useState} from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import Form from "./Form";
 
 
-function Todo({todos, completeTodo, removeTodo, updateTodo}) {
-    const [edit, setEdit] = useState({
-        id: null,
-        value: ''
-    });
-
-    const submitUpdate = value => {
-        updateTodo (edit.id, value);
-        setEdit({
-            id: null,
-            value: ''
-        });
-    }
-
-    if (edit.id) {
-        return <Form edit={edit} onSubmit={submitUpdate} />;
-    }
+function Todo({todos, completeTodo, removeTodo, handleEdit}) {
 
     return todos.map((todo, index) => (
         <div className="col bg-todo" key={index}>
@@ -35,7 +18,7 @@ function Todo({todos, completeTodo, removeTodo, updateTodo}) {
                 {
                     todo.isComplete ? '' : (
                         <span>
-                            <FontAwesomeIcon icon={faEdit} onClick={() => setEdit({id: todo.id, value: todo.text})} className="icon-edit"/>
+                            <FontAwesomeIcon icon={faEdit} onClick={() => handleEdit (todo.id)} className="icon-edit"/>
                         </span>
                     )
                 }

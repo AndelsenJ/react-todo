@@ -6,6 +6,10 @@ function List() {
 
     const [items, setItems] = useState([]);
 
+    const [todoUpdate, setTodoUpdate] = useState({});
+
+    const [editMode, setEditMode] = useState(false);
+
     const addItem = (item) => {
         if (!item.text || /^\s*$/.test(item.text)) {
             return;
@@ -26,16 +30,25 @@ function List() {
         setItems(updatedItems);
     }
 
-    const updateItem = (itemId, newValue) => {
-        if (!newValue.text || /^\s*$/.test(newValue.text)) {
+    const handleEdit = (itemId) => {
+        setEditMode(true);
+        setTodoUpdate(items.find(item => item.id === itemId));
+    }
+
+    const updateItem = (itemToUpdate) => {
+        console.log(itemToUpdate.id, itemToUpdate.text);
+        if (!itemToUpdate.text || /^\s*$/.test(itemToUpdate.text)) {
             return;
         }
 
-        setItems(prev => prev.map(item => (item.id === itemId ? newValue : item)));
+        setItems(prev => prev.map(item => (item.id === itemToUpdate.id ? itemToUpdate : item)));
+        setEditMode(false);
+        setTodoUpdate({});
     }
 
     const cancelUpdate = () => {
-
+        setEditMode(false);
+        setTodoUpdate({});
     }
 
     const handleDelete = (id) => {
@@ -48,11 +61,11 @@ function List() {
         <div className="my-5">
             <div className="">
                 <h1 className="mb-5">Todo app</h1>
-                <Form onSubmit={addItem}/>
+                <Form todo={todoUpdate} editMode={editMode} onSubmit={editMode ? updateItem : addItem} cancelUpdate={cancelUpdate}/>
             </div>
             <div className="mt-5">
                 { items.length ? '' : 'Nothing to do'}
-                <Todo todos={items} completeTodo={completeItem} removeTodo={handleDelete} updateTodo={updateItem}/>
+                <Todo todos={items} completeTodo={completeItem} removeTodo={handleDelete} handleEdit={handleEdit}/>
             </div>
         </div>
 

@@ -30,8 +30,14 @@ function Form(props) {
 
     return (
         <form onSubmit={handleSubmit}>
-            <input type="text" name='text' value={inputText} onChange={handleChange} ref={inputRef}/>
-            <button >Add todo</button>
+            <div className="row">
+                <div className="col">
+                    <input className="form-control" type="text" name="text" value={inputText} onChange={handleChange} ref={inputRef}/>
+                </div>
+                <div className="col-auto">
+                    <button className="btn btn-success">Add todo</button>
+                </div>
+            </div>
         </form>
     )
 

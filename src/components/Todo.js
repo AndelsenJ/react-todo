@@ -1,6 +1,6 @@
 import React, {useState} from "react";
-import { RiCloseCircleLine } from 'react-icons/ri';
-import { TiEdit } from 'react-icons/ti';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle, faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import Form from "./Form";
 
 
@@ -23,13 +23,26 @@ function Todo({todos, completeTodo, removeTodo, updateTodo}) {
     }
 
     return todos.map((todo, index) => (
-        <div key={index}>
-            <div key={todo.id} onClick={() => completeTodo(todo.id)}>
-                {todo.text}
+        <div className="col bg-todo" key={index}>
+            <div className={todo.isComplete ? 'is-complete' : ''} key={todo.id}>
+                <span className="text-todo">{todo.text}</span>
             </div>
-            <div>
-                <RiCloseCircleLine onClick={() => removeTodo(todo.id)} />
-                <TiEdit onClick={() => setEdit({id: todo.id, value: todo.text})}/>
+            <div className="icons-action">
+                <span>
+                    <FontAwesomeIcon icon={faCheckCircle} onClick={() => completeTodo (todo.id)} className="icon-check"/>
+                </span>
+
+                {
+                    todo.isComplete ? '' : (
+                        <span>
+                            <FontAwesomeIcon icon={faEdit} onClick={() => setEdit({id: todo.id, value: todo.text})} className="icon-edit"/>
+                        </span>
+                    )
+                }
+
+                <span>
+                    <FontAwesomeIcon icon={faTrashAlt} onClick={() => removeTodo (todo.id)} className="icon-delete"/>
+                </span>
             </div>
         </div>
     ));

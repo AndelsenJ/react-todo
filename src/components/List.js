@@ -34,17 +34,28 @@ function List() {
         setItems(prev => prev.map(item => (item.id === itemId ? newValue : item)));
     }
 
+    const cancelUpdate = () => {
+
+    }
+
     const handleDelete = (id) => {
         const newItems = items.filter((item) => item.id !== id);
         setItems(newItems);
     }
 
     return (
-        <div>
-            <h1>My react todo app</h1>
-            <Form onSubmit={addItem}/>
-            <Todo todos={items} completeTodo={completeItem} removeTodo={handleDelete} updateTodo={updateItem}/>
+
+        <div className="my-5">
+            <div className="">
+                <h1 className="mb-5">Todo app</h1>
+                <Form onSubmit={addItem}/>
+            </div>
+            <div className="mt-5">
+                { items.length ? '' : 'Nothing to do'}
+                <Todo todos={items} completeTodo={completeItem} removeTodo={handleDelete} updateTodo={updateItem}/>
+            </div>
         </div>
+
     )
 }
 
